@@ -1,0 +1,8 @@
+.tmp/
+.maps/
+node_modules/
+bower_components/
+docs/
+dist/libs*
+dist/app*
+dist/*.html

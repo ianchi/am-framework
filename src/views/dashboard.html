@@ -1,0 +1,52 @@
+<div>
+
+	<div layout="row" layout-wrap>
+		<amf-panel style="width: 200px;" title="Memory" icon="memory" flex="noshrink" options="true">
+			<ng-include src="'views/panel1.html'" />
+		</amf-panel>
+		<amf-panel flex="noshrink" title="Internet" icon="web">
+			<div><span>Status:</span>
+				<md-icon md-svg-icon="lan-disconnect"></md-icon>
+			</div>
+			<div><span>Public IP: 10.0.0.0</span></div>
+		</amf-panel>
+		<amf-panel flex="noshrink" title="Root" template="" icon="folder-outline">
+			<canvas id="doughnut2" class="chart chart-doughnut" chart-data="graph.data" chart-labels="graph.labels" chart-options="{cutoutPercentage: 70, circumference: 3.14159, rotation: -3.14159, maintainAspectRatio: true,
+	legend: {display: true, position:'bottom', fullWidth: false, labels: {boxWidth: 15, padding:6}}}">
+	</canvas>
+			<md-list class="dashboard-panel">
+
+				<md-list-item>
+					<span>/ (overlayfs)</span><span class="md-secondary">12.5Mb/13.3Mb</span>
+				</md-list-item>
+				<md-list-item>
+					<span>/rom (squashfs)</span><span class="md-secondary">0Mb/16.8Mb</span>
+				</md-list-item>
+				<md-list-item>
+					<span>/overlay (ubifs)</span><span class="md-secondary">12.5Mb/13.3Mb</span>
+				</md-list-item>
+				<md-list-item>
+					<span>/tmp (tmpfs)</span><span class="md-secondary">231Mb/235Mb</span>
+				</md-list-item>
+			</md-list>
+		</amf-panel>
+		<amf-panel flex="noshrink" title="Networks" template="" icon="lan">
+			WAN LAN VPN TUN
+
+
+		</amf-panel>
+
+		<amf-panel flex="noshrink" title="Wifi" icon="wifi">
+			<ng-include src="'views/wifi.html'" /> </amf-panel>
+	
+	<amf-panel flex="noshrink" title="System" icon="information-variant" class="dashboard-panel">
+		<h3>Hostname</h3> lede
+		<h3>Model</h3> Linksys EA8500 WiFi Router
+		<h3>Firmware Version</h3> Lede Ianchi-full 161128.0854 r2166 <br>
+		LuCI Master (git-16.330.55844-ebb5a90)
+		<h3>Kernel Version</h3> 4.4.30
+		<h3>Local Time</h3> Fri Dec 16 00:15:12 2016
+		<h3>Uptime</h3> 7d 20h 59m 48s
+	</amf-panel>
+		</div>
+</div>

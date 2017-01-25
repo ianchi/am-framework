@@ -1,0 +1,60 @@
+<md-dialog aria-label="Login" class="amf-login-dialog">
+
+    <form name="loginForm" data-ng-submit="vm.handleSubmit()">
+
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Login</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">
+                <md-input-container class="" md-no-float>
+                    <label>Username:</label>
+                    <input name="username" ng-model="vm.username" required md-autofocus>
+                    <div ng-messages="loginForm.username.$error">
+      					<div ng-message="required">This is required!</div>
+    				</div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Password:</label>
+                    <input ng-model="vm.password" type="password" required>
+                </md-input-container>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button type="submit" class="md-primary md-confirm-button" aria-label="login">
+                Login
+            </md-button>
+        </md-dialog-actions>
+
+    </form>
+
+</md-dialog>
+<!--
+<md-dialog aria-label="Login" class="amf-login-dialog">
+  <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">
+    <h2 class="md-title">Login</h2>
+    <div ng-if="::dialog.mdHtmlContent" class="md-dialog-content-body" 
+        ng-bind-html="::dialog.mdHtmlContent"></div>
+    <div ng-if="::!dialog.mdHtmlContent" class="md-dialog-content-body">
+      <p>{{::dialog.mdTextContent}}</p>
+    </div>
+    <md-input-container md-no-float ng-if="::dialog.$type == \prompt\" class="md-prompt-input-container">
+      <input ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" 
+             placeholder="{{::dialog.placeholder}}">
+    </md-input-container>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-if="dialog.$type === \confirm\ || dialog.$type === \prompt\"
+               ng-click="dialog.abort()" class="md-primary md-cancel-button">
+      {{ dialog.cancel }}
+    </md-button>
+    <md-button ng-click="dialog.hide()" class="md-primary md-confirm-button" md-autofocus="dialog.$type===\alert\">
+      {{ dialog.ok }}
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>
+--!>

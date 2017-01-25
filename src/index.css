@@ -1,0 +1,98 @@
+/* libs overrides */
+
+.mdi {
+	vertical-align: middle;
+}
+
+.mdi.mdi-18 {
+	font-size: 18px;
+}
+
+.mdi.mdi-24 {
+	font-size: 24px;
+}
+
+.mdi.mdi-36 {
+	font-size: 36px;
+}
+
+.mdi.mdi-48 {
+	font-size: 48px;
+}
+
+#license-footer {
+	align-self: flex-end;
+	padding: 16px 32px 0px 32px;
+	text-align: center;
+	font-size: small;
+	border-top: 1px solid #ccc;
+	color: #888;
+}
+
+.amf-panel-toolbar {
+	margin: 0px;
+	min-height: 30px;
+}
+
+.amf-panel-toolbar .md-toolbar-tools {
+	height: 46px;
+}
+
+.ui-view {
+	height: 100%;
+	width: 100%;
+}
+
+.dashboard-panel {
+	font-size: 0.7em;
+}
+
+.dashboard-panel {
+	font-size: 0.7em;
+}
+
+
+.dashboard-panel h3 {
+	margin: 0px;
+	padding-top: 0.5em;
+}
+
+.dashboard-panel md-list-item {
+	min-height: 0px;
+	padding-top: 0.4em;
+}
+.dashboard-panel md-list-item .md-list-item-inner,
+.dashboard-panel md-list-item::before,
+.dashboard-panel md-list-item .md-list-item-inner::before {
+	min-height: 0px !important;
+}
+
+md-list.dashboard-panel md-list-item .md-list-item-inner>md-icon {
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+.amf-badge {
+	position: relative;
+}
+
+.amf-badge[data-badge]:after {
+	content: attr(data-badge);
+	position: absolute;
+	top: -0.7em;
+	right: -50%;
+	font-size: .8em;
+	background: green;
+	color: white;
+	min-width: 1.5em;
+	height: 1.5em;
+	text-align: center;
+	line-height: 1.5em;
+	border-radius: 0.75em;
+	padding-left: 0.2em;
+	padding-right: 0.2em;
+}
+
+.dashboard-panel .amf-badge[data-badge]:after {
+	background-color: cornflowerblue;
+}

@@ -1,0 +1,50 @@
+{
+  "name": "angular-material-framework",
+  "version": "0.1.0",
+  "description": "Angular Material Framwork for responsive admin template",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "angular",
+    "material",
+    "framework",
+    "admin",
+    "template"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "angular-jsdoc": "^1.5.0",
+    "autoprefixer": "^6.6.1",
+    "bower": "^1.7.9",
+    "browser-sync": "^2.9.11",
+    "del": "~0.1.3",
+    "eslint-config-angular": "^0.5.0",
+    "eslint-config-google": "^0.7.1",
+    "eslint-plugin-angular": "^1.3.0",
+    "eslint-plugin-json": "^1.2.0",
+    "gulp": "gulpjs/gulp#4.0",
+    "gulp-angular-gettext": "^2.2.0",
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-debug": "^3.0.0",
+    "gulp-eslint": "^3.0.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-inject": "^3.0.0",
+    "gulp-insert": "^0.5.0",
+    "gulp-jsdoc3": "^1.0.1",
+    "gulp-load-plugins": "^1.4.0",
+    "gulp-ng-annotate": "^1.1.0",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-uglify": "^1.5.4",
+    "gulp-useref": "^3.1.2",
+    "http-proxy-middleware": "^0.17.3",
+    "lazypipe": "^1.0.1",
+    "wiredep": "^4.0.0"
+  }
+}

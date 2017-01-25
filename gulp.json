@@ -1,0 +1,17 @@
+{
+	"paths": {
+		"src": "src",
+		"dist": "dist",
+		"tmp": ".tmp",
+		"app": "app",
+		"mainHtml": "index.html"
+	},
+	"ngModule": "amFramework",
+
+	"proxy": "http://lede.lan/ubus",
+
+	"wiredep": {
+		"directory": "bower_components"
+	}
+
+}

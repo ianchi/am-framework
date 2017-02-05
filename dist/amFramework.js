@@ -144,13 +144,20 @@ function BreadcrumbsCtrl($transitions, $state) {
 (function() {
 'use strict';
 /**
- * @ngdoc provider
- * @name amfLoginDialog
+ * @ngdoc directive
+ * @name amfHttpProgress
  * @module amFramework
  *
- * @description
- * Provides authentication services with http interceptor
+ * @restrict E
  *
+ * @description
+ * `<amf-http-progress>` Shows a mdProgressLinear whenever an $http call is being made
+ * Style can be controlled with `amf-http-progress` class
+ *
+ * It registers a http interceptor that triggers the spinner on each call.
+ * It also exposes a companion factory `$amfHttpProgress` that can be used to enable/disable the annimation.
+ * Alternative individual $http calls can be tagged with a truthy `ignoreHttpProgress` property in the
+ * request config object, so that it doesn't trigger the animation.
  *
  */
 
@@ -368,6 +375,20 @@ function SideMenuItemCtrl() {
 
 (function() {
 'use strict';
+/**
+ * @ngdoc directive
+ * @name amfSlide
+ * @module amFramework
+ *
+ * @restrict A
+ *
+ * @description
+ * `amf-slide` Helper directive to give the element a slide animation to show or hide
+ *
+ * @param amfSlide {!bool=} change it to animate and show/hide
+ *
+ */
+
 angular.module('amFramework')
 	.directive('amfSlide', function() {
 		return {
@@ -397,6 +418,24 @@ function postLink(scope, element, attr, $ctrl) {
 }
 })();
 
+/**
+ * @ngdoc directive
+ * @name amfToolbarButtons
+ * @module amFramework
+ *
+ * @restrict E
+ *
+ * @description
+ * `<amf-toolbar-buttons>` Generates a toolbar icon menu which opens popup menues with actions
+ *
+ * @param buttons {!Array<Object>=} Array of button definition with the following properties:
+ *      - `icon` - `{string=}`: Icon to display on the menu. It must be a named SVG already loaded.
+ *      - `lagel` - `{string=}`: Label to display on the menu.
+ *		- `badge` - `{string=}`: Badge to display over the icon button.
+ * 		- `onClick` -  `{function()=}`: Function that is called when an item is clicked.
+ *      - `menu` - `{!Array<Object>=}`: Array of children nodes, with the same structure
+ *
+ */
 angular.module('amFramework')
 	.component('amfToolbarButtons', {
 		replace: false,
@@ -482,6 +521,7 @@ function LoginDialogProvider() {
 			options.cookie = null;
 	}
 
+	/* ngInject */
 	function loginDialogFactory($injector) {
 		if (options.loginFactory && !options.loginCB)
 			options.loginCB = $injector.invoke(options.loginFactory);
@@ -660,7 +700,7 @@ function LoginDialogProvider() {
 	}
 }
 
-
+/* ngInject */
 function loginDialogConfig($httpProvider, amfLoginDialogProvider) {
 	// initialization
 	$httpProvider.interceptors.push(amfLoginDialogProvider._loginInterceptor);
@@ -672,7 +712,7 @@ angular.module('amFramework').run(['$templateCache', function($templateCache) {$
 $templateCache.put('app/components/panel.tmpl.html','<section layout-margin class="md-whiteframe-z1 amf-panel" md-colors="{\'background-color\': \'background\'}"><md-toolbar class="md-hue-1 amf-panel-toolbar"><div class="md-toolbar-tools"><md-icon md-svg-icon="{{icon}}"></md-icon><h3 class="amf-panel-tittle">{{title}}</h3><span flex></span><md-button ng-show="options" ng-click="$showOptions = !$showOptions" class="md-icon-button" aria-label="Show options"><md-icon md-svg-icon="dots-vertical"></md-icon></md-button></div></md-toolbar><md-content><ng-transclude></ng-transclude></md-content></section>');
 $templateCache.put('app/components/sideMenu.tmpl.html','<md-content flex role="navigation" md-colors="{\'background-color\': \'background\'}"><ul ng-if="$ctrl.nodes.length"><li ng-repeat="node in $ctrl.nodes"><amf-side-menu-item node="node" level="0"></li></ul></md-content>');
 $templateCache.put('app/components/sideMenuItem.tmpl.html','<md-button ng-if="$ctrl.node.childs && $ctrl.node.childs.length" ng-click="$ctrl.click();" ng-class="\'amf-menu-item-\' + $ctrl.level" class="amf-button-toggle"><div flex="grow" layout="row"><span>{{$ctrl.node.title}}</span> <span flex></span> <span ng-class="{\'toggled\' : $ctrl.node.isOpen}" ng-if="$ctrl.node.childs" class="amf-toggle-icon"><md-icon md-svg-icon="chevron-down"></md-icon></span></div></md-button><md-button ng-if="(!$ctrl.node.childs || !$ctrl.node.childs.length) && $ctrl.node.sref" ng-click="$ctrl.click();" ui-sref-active="md-accent active" ng-class="\'amf-menu-item-\' + $ctrl.level" class="amf-button-link" ui-sref="{{$ctrl.node.sref}}"><div flex="grow" layout="row"><span>{{$ctrl.node.title}}</span></div></md-button><md-button ng-if="(!$ctrl.node.childs || !$ctrl.node.childs.length) && !$ctrl.node.sref" ng-click="$ctrl.click();" ng-class="\'amf-menu-item-\' + $ctrl.level" class="amf-button-disabled" ng-disabled="true"><div flex="grow" layout="row"><span>{{$ctrl.node.title}}</span></div></md-button><md-divider></md-divider><div amf-slide="$ctrl.node.isOpen"><ul ng-if="$ctrl.node.childs.length" class="amf-menu-children"><li ng-repeat="child in $ctrl.node.childs"><amf-side-menu-item node="child" level="{{$ctrl.level + 1}}"></li></ul></div>');
-$templateCache.put('app/components/toolbarButtons.tmpl.html','<section layout="row" layout-align="end"><div ng-repeat="btn in $ctrl.buttons" style="position:relative"><ng-bind-html ng-if="btn.template" ng-bind-html="btn.template"></ng-bind-html><md-button ng-if="!btn.template && !btn.menu" ng-click="btn.click && btn.click();" class="md-icon-button toolbar-button" aria-label="{{btn.label}}"><md-icon ng-if="btn.icon" md-svg-icon="{{btn.icon}}"></md-icon></md-button><span ng-if="!btn.template && btn.notifLabel" class="amf-notifications-label">{{btn.notifLabel}}</span><md-menu ng-if="!btn.template && btn.menu"><md-button class="md-icon-button" ng-click="$mdMenu.open($event)" aria-label="{{btn.label}}"><md-icon ng-if="btn.icon" md-svg-icon="{{btn.icon}}"></md-icon></md-button><md-menu-content width="3"><md-menu-item ng-repeat="item in btn.menu"><md-button ng-click="$mdMenu.close(); item.click && item.click();" class="md-button" aria-label="{{item.label}}"><md-icon ng-if="item.icon" md-svg-icon="{{item.icon}}"></md-icon><span ng-if="item.label">{{item.label}}</span></md-button></md-menu-item></md-menu-content></md-menu></div></section>');
+$templateCache.put('app/components/toolbarButtons.tmpl.html','<section layout="row" layout-align="end"><div ng-repeat="btn in $ctrl.buttons" style="position:relative"><ng-bind-html ng-if="btn.template" ng-bind-html="btn.template"></ng-bind-html><md-button ng-if="!btn.template && !btn.menu" ng-click="btn.onClick && btn.onClick();" class="md-icon-button toolbar-button" aria-label="{{btn.label}}"><md-icon ng-if="btn.icon" md-svg-icon="{{btn.icon}}"></md-icon></md-button><span ng-if="!btn.template && btn.badge" class="amf-notifications-label">{{btn.badge}}</span><md-menu ng-if="!btn.template && btn.menu"><md-button class="md-icon-button" ng-click="$mdMenu.open($event)" aria-label="{{btn.label}}"><md-icon ng-if="btn.icon" md-svg-icon="{{btn.icon}}"></md-icon></md-button><md-menu-content width="3"><md-menu-item ng-repeat="item in btn.menu"><md-button ng-click="$mdMenu.close(); item.onClick && item.onClick();" class="md-button" aria-label="{{item.label}}"><md-icon ng-if="item.icon" md-svg-icon="{{item.icon}}"></md-icon><span ng-if="item.label">{{item.label}}</span></md-button><span ng-if="item.badge" class="amf-notifications-label">{{item.badge}}</span></md-menu-item></md-menu-content></md-menu></div></section>');
 $templateCache.put('app/containers/App.tmpl.html','<div layout="row" layout-fill><md-sidenav md-is-locked-open="$mdMedia(\'gt-sm\')" md-component-id="left" class="md-whiteframe-z2 md-sidenav-left" md-colors="{\'background-color\': \'background\'}"><header class="md-whiteframe-2dp" md-colors="{color: \'primary\'}"><ng-transclude ng-transclude-slot="title" flex="100"></ng-transclude><md-divider></md-divider></header><amf-side-menu nodes="$ctrl.sideMenu"></md-sidenav><div layout="column" flex><md-toolbar layout="row" layout-align="start center" class="md-whiteframe-2dp"><md-button class="md-icon-button" hide-gt-sm ng-click="$ctrl.openMenu()" aria-label="menu"><md-icon md-svg-icon="menu"></md-icon></md-button><amf-breadcrumbs limit-to="2" limit-to-xs="1" label-property="data.title"></amf-breadcrumbs><span flex></span><amf-toolbar-buttons buttons="$ctrl.toolbar"></amf-toolbar-buttons></md-toolbar><!-- main content --><md-content class="md-padding page-content" md-colors="{\'background-color\': \'background-hue-1\'}" md-scroll-y layout="column" flex><ng-transclude ng-transclude-slot="content"></ng-transclude><div layout="row" layout-align="center end"><ng-transclude ng-transclude-slot="footer" flex="100"></ng-transclude></div></md-content></div></div>');
 $templateCache.put('app/services/loginDialog.tmpl.html','<md-dialog aria-label="Login" class="amf-login-dialog"><form name="loginForm" data-ng-submit="dialog.handleSubmit()"><md-toolbar><div class="md-toolbar-tools"><h2>Login</h2></div></md-toolbar><md-dialog-content class="md-dialog-content" role="document" tabindex="-1"><md-toolbar class="md-warn" ng-if="dialog.error">{{dialog.error}}</md-toolbar><md-input-container class="" md-no-float><label>Username:</label><input name="username" ng-model="dialog.username" required md-autofocus><div ng-messages="loginForm.username.$error"><div ng-message="required">This is required!</div></div></md-input-container><md-input-container class="md-block"><label>Password:</label><input ng-model="dialog.password" type="password" required></md-input-container></md-dialog-content><md-dialog-actions layout="row"><span flex></span><md-button type="submit" class="md-primary md-confirm-button" aria-label="login">Login</md-button></md-dialog-actions></form></md-dialog><!--\n<md-dialog aria-label="Login" class="amf-login-dialog">\n  <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">\n    <h2 class="md-title">Login</h2>\n    <div ng-if="::dialog.mdHtmlContent" class="md-dialog-content-body" \n        ng-bind-html="::dialog.mdHtmlContent"></div>\n    <div ng-if="::!dialog.mdHtmlContent" class="md-dialog-content-body">\n      <p>{{::dialog.mdTextContent}}</p>\n    </div>\n    <md-input-container md-no-float ng-if="::dialog.$type == \\prompt\\" class="md-prompt-input-container">\n      <input ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" \n             placeholder="{{::dialog.placeholder}}">\n    </md-input-container>\n  </md-dialog-content>\n  <md-dialog-actions>\n    <md-button ng-if="dialog.$type === \\confirm\\ || dialog.$type === \\prompt\\"\n               ng-click="dialog.abort()" class="md-primary md-cancel-button">\n      {{ dialog.cancel }}\n    </md-button>\n    <md-button ng-click="dialog.hide()" class="md-primary md-confirm-button" md-autofocus="dialog.$type===\\alert\\">\n      {{ dialog.ok }}\n    </md-button>\n  </md-dialog-actions>\n</md-dialog>\n-->');}]);
 //# sourceMappingURL=../.maps/amFramework.js.map

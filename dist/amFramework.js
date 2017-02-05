@@ -418,6 +418,8 @@ function postLink(scope, element, attr, $ctrl) {
 }
 })();
 
+(function() {
+'use strict';
 /**
  * @ngdoc directive
  * @name amfToolbarButtons
@@ -443,9 +445,13 @@ angular.module('amFramework')
 		bindings: { buttons: '<' },
 		templateUrl: 'app/components/toolbarButtons.tmpl.html'
 	});
+})();
 
+(function() {
+'use strict';
 'use strict';
 
+AppController.$inject = ['$mdSidenav', '$timeout'];
 angular
 	.module('amFramework')
 	.component('amfApp', {
@@ -470,7 +476,10 @@ function AppController($mdSidenav, $timeout) {
 		});
 	};
 }
+})();
 
+(function() {
+'use strict';
 /**
  * @ngdoc provider
  * @name amfLoginDialog
@@ -483,6 +492,7 @@ function AppController($mdSidenav, $timeout) {
  */
 
 
+loginDialogConfig.$inject = ['$httpProvider', 'amfLoginDialogProvider'];
 angular
 	.module('amFramework')
 	.provider('amfLoginDialog', LoginDialogProvider)
@@ -490,6 +500,8 @@ angular
 
 function LoginDialogProvider() {
 	// private vars
+	loginInterceptor.$inject = ['$q', '$injector', '$cookies', '$rootScope', '$amfHttpProgress'];
+	loginDialogFactory.$inject = ['$injector'];
 	var loggedToken = null;
 	var options = {
 		loginFactory: null,
@@ -538,6 +550,7 @@ function LoginDialogProvider() {
 
 	/* @ngInject */
 	function loginInterceptor($q, $injector, $cookies, $rootScope, $amfHttpProgress) {
+		LoginDialogController.$inject = ['$mdDialog', '$cookies', '$rootScope'];
 		var $http, $mdDialog;
 
 		return {
@@ -707,6 +720,7 @@ function loginDialogConfig($httpProvider, amfLoginDialogProvider) {
 }
 
 
+})();
 
 angular.module('amFramework').run(['$templateCache', function($templateCache) {$templateCache.put('app/components/breadcrumbs.tmpl.html','<header class="amf-breadcrumbs"><span ng-repeat="state in $ctrl.dest.path | limitTo:-$ctrl.dest.path.length+1" ng-class="$ctrl.hideClass($index)"><a ng-if="state.abstract || $last">{{$eval(\'state.\' + $ctrl.labelProperty) || state.name}}</a> <a ng-if="!(state.abstract || $last)" ui-sref="{{state.name}}">{{$eval(\'state.\' + $ctrl.labelProperty) || state.name}}</a><md-icon md-svg-src="chevron-right" ng-if="!$last"></span></header>');
 $templateCache.put('app/components/panel.tmpl.html','<section layout-margin class="md-whiteframe-z1 amf-panel" md-colors="{\'background-color\': \'background\'}"><md-toolbar class="md-hue-1 amf-panel-toolbar"><div class="md-toolbar-tools"><md-icon md-svg-icon="{{icon}}"></md-icon><h3 class="amf-panel-tittle">{{title}}</h3><span flex></span><md-button ng-show="options" ng-click="$showOptions = !$showOptions" class="md-icon-button" aria-label="Show options"><md-icon md-svg-icon="dots-vertical"></md-icon></md-button></div></md-toolbar><md-content><ng-transclude></ng-transclude></md-content></section>');

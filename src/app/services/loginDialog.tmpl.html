@@ -1,6 +1,6 @@
 <md-dialog aria-label="Login" class="amf-login-dialog">
 
-    <form name="loginForm" data-ng-submit="vm.handleSubmit()">
+    <form name="loginForm" data-ng-submit="dialog.handleSubmit()">
 
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -9,9 +9,13 @@
         </md-toolbar>
 
         <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">
+			<md-toolbar class="md-warn" ng-if="dialog.error">
+				{{dialog.error}}
+			</md-toolbar>
+			
                 <md-input-container class="" md-no-float>
                     <label>Username:</label>
-                    <input name="username" ng-model="vm.username" required md-autofocus>
+                    <input name="username" ng-model="dialog.username" required md-autofocus>
                     <div ng-messages="loginForm.username.$error">
       					<div ng-message="required">This is required!</div>
     				</div>
@@ -19,7 +23,7 @@
 
                 <md-input-container class="md-block">
                     <label>Password:</label>
-                    <input ng-model="vm.password" type="password" required>
+                    <input ng-model="dialog.password" type="password" required>
                 </md-input-container>
         </md-dialog-content>
 
@@ -57,4 +61,4 @@
     </md-button>
   </md-dialog-actions>
 </md-dialog>
---!>
+-->

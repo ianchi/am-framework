@@ -14,7 +14,7 @@
  *
  * @param nodes {!Array<Object>=} Array of nodes with menu data that have the
  *      following properties:
- *      - `name` - `{string=}`: Label to display on the menu
+ *      - `title` - `{string=}`: Label to display on the menu
  *      - `sref` - `{string=}`: State to activate when clicked. Ignored if the node has children.
  *      If a node doesn't have children and sref is empty, the item will be shown as disabled.
  *      - `isOpen` - `{boolean=}`: Get/sets if a node with children is currently open.

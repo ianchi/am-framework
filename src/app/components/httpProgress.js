@@ -1,11 +1,18 @@
 /**
- * @ngdoc provider
- * @name amfLoginDialog
+ * @ngdoc directive
+ * @name amfHttpProgress
  * @module amFramework
  *
- * @description
- * Provides authentication services with http interceptor
+ * @restrict E
  *
+ * @description
+ * `<amf-http-progress>` Shows a mdProgressLinear whenever an $http call is being made
+ * Style can be controlled with `amf-http-progress` class
+ *
+ * It registers a http interceptor that triggers the spinner on each call.
+ * It also exposes a companion factory `$amfHttpProgress` that can be used to enable/disable the annimation.
+ * Alternative individual $http calls can be tagged with a truthy `ignoreHttpProgress` property in the
+ * request config object, so that it doesn't trigger the animation.
  *
  */
 

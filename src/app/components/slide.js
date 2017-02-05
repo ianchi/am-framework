@@ -1,3 +1,17 @@
+/**
+ * @ngdoc directive
+ * @name amfSlide
+ * @module amFramework
+ *
+ * @restrict A
+ *
+ * @description
+ * `amf-slide` Helper directive to give the element a slide animation to show or hide
+ *
+ * @param amfSlide {!bool=} change it to animate and show/hide
+ *
+ */
+
 angular.module('amFramework')
 	.directive('amfSlide', function() {
 		return {

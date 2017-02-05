@@ -3,19 +3,20 @@
 				<div ng-repeat="btn in $ctrl.buttons" style="position:relative">
 					<ng-bind-html ng-if="btn.template" ng-bind-html="btn.template"> </ng-bind-html>
 
-					<md-button ng-if="!btn.template && !btn.menu" class="md-icon-button toolbar-button" aria-label="{{btn.name}}">
+					<md-button ng-if="!btn.template && !btn.menu" ng-click="btn.click && btn.click();"
+							   class="md-icon-button toolbar-button" aria-label="{{btn.label}}">
 						<md-icon ng-if="btn.icon" md-svg-icon="{{btn.icon}}"></md-icon>
 					</md-button>
-					<span ng-if="btn.notifLabel" class="amf-notifications-label">{{btn.notifLabel}}</span>
+					<span ng-if="!btn.template && btn.notifLabel" class="amf-notifications-label">{{btn.notifLabel}}</span>
 
 					<md-menu ng-if="!btn.template && btn.menu">
-						<md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="{{btn.name}}">
+						<md-button class="md-icon-button" ng-click="$mdMenu.open($event)" aria-label="{{btn.label}}">
 							<md-icon ng-if="btn.icon" md-svg-icon="{{btn.icon}}"></md-icon>
 						</md-button>
 
 						<md-menu-content width="3">
 							<md-menu-item ng-repeat="item in btn.menu">
-								<md-button ng-click="$mdCloseMenu()" class="md-button" aria-label="{{item.name}}">
+								<md-button ng-click="$mdMenu.close(); item.click && item.click();" class="md-button" aria-label="{{item.label}}">
 									<md-icon ng-if="item.icon" md-svg-icon="{{item.icon}}"></md-icon>
 									<span ng-if="item.label">{{item.label}}</span>
 								</md-button>

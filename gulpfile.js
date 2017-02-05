@@ -188,7 +188,7 @@ function build() {
 						          $.insert.wrap('(function() {\n\'use strict\';\n\n', '})();\n'))))
 
 		.pipe(jsFilter)
-		.pipe($.if('**/luci-ng.js', // don't annotate libs
+		.pipe($.if('!**/libs.js', // don't annotate libs
 		           $.ngAnnotate({ remove: true, add: true, single_quotes: true })))
 		// .pipe($.uglify({ preserveComments: 'license' })) // but minify everything
 		.pipe(jsFilter.restore)

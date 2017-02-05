@@ -48,6 +48,7 @@ function LoginDialogProvider() {
 			options.cookie = null;
 	}
 
+	/* ngInject */
 	function loginDialogFactory($injector) {
 		if (options.loginFactory && !options.loginCB)
 			options.loginCB = $injector.invoke(options.loginFactory);
@@ -226,7 +227,7 @@ function LoginDialogProvider() {
 	}
 }
 
-
+/* ngInject */
 function loginDialogConfig($httpProvider, amfLoginDialogProvider) {
 	// initialization
 	$httpProvider.interceptors.push(amfLoginDialogProvider._loginInterceptor);

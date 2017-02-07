@@ -3,7 +3,7 @@
 'use strict';
 
 angular
-	.module('amFramework', ['ngMaterial', 'ngAnimate', 'ui.router'])
+	.module('amFramework', ['ngMaterial', 'ngAnimate', 'ui.router', 'ngMessages'])
 	.config(['$mdThemingProvider', function($mdThemingProvider) {
 		'ngInject';
 
@@ -15,16 +15,6 @@ angular
 				'default': '50',
 				'hue-1': '300'
 			});
-
-		$mdThemingProvider.theme('dark', 'default')
-			.primaryPalette('defaultPrimary')
-			.dark();
-
-		$mdThemingProvider.theme('grey', 'default')
-			.primaryPalette('grey');
-
-		$mdThemingProvider.theme('custom', 'default')
-			.primaryPalette('defaultPrimary', { 'hue-1': '50' });
 
 		$mdThemingProvider.definePalette('defaultPrimary', {
 			'50': '#FFFFFF',
@@ -550,7 +540,7 @@ function LoginDialogProvider() {
 
 	/* @ngInject */
 	function loginInterceptor($q, $injector, $cookies, $rootScope, $amfHttpProgress) {
-		LoginDialogController.$inject = ['$mdDialog', '$cookies', '$rootScope'];
+		LoginDialogController.$inject = ['$mdDialog', '$cookies', '$rootScope', '$scope'];
 		var $http, $mdDialog;
 
 		return {
@@ -668,18 +658,18 @@ function LoginDialogProvider() {
 				clickOutsideToClose: false,
 				escapeToClose: false,
 				fullscreen: true
-
 			}).finally(function() {
 				$amfHttpProgress.state(oldState);
 			});
 		}
 
 		/* ngInject */
-		function LoginDialogController($mdDialog, $cookies, $rootScope) {
+		function LoginDialogController($mdDialog, $cookies, $rootScope, $scope) {
 			var dialog = this;
+			$scope.theme = 'default';
 			dialog.username = '';
 			dialog.password = '';
-			dialog.error = false;
+			dialog.error = null;
 
 			dialog.handleSubmit = handleSubmit;
 			dialog.handleCancel = handleCancel;
@@ -692,6 +682,7 @@ function LoginDialogProvider() {
 							dialog.password = '';
 							dialog.username = '';
 							$mdDialog.hide(token);
+							dialog.error = null;
 
 							if (options.cookie) {
 								$cookies.putObject(options.cookie.name, token, { path: options.cookie.path });
@@ -700,7 +691,7 @@ function LoginDialogProvider() {
 						}, function(errMsg) {
 							if (options.cookie)
 								$cookies.remove(options.cookie.name, { path: options.cookie.path });
-							dialog.error=errMsg || 'Invalid username/password';
+							dialog.error = { unauthorized: errMsg || 'Invalid username/password' };
 						});
 				} else $mdDialog.hide();
 				return;
@@ -728,5 +719,5 @@ $templateCache.put('app/components/sideMenu.tmpl.html','<md-content flex role="n
 $templateCache.put('app/components/sideMenuItem.tmpl.html','<md-button ng-if="$ctrl.node.childs && $ctrl.node.childs.length" ng-click="$ctrl.click();" ng-class="\'amf-menu-item-\' + $ctrl.level" class="amf-button-toggle"><div flex="grow" layout="row"><span>{{$ctrl.node.title}}</span> <span flex></span> <span ng-class="{\'toggled\' : $ctrl.node.isOpen}" ng-if="$ctrl.node.childs" class="amf-toggle-icon"><md-icon md-svg-icon="chevron-down"></md-icon></span></div></md-button><md-button ng-if="(!$ctrl.node.childs || !$ctrl.node.childs.length) && $ctrl.node.sref" ng-click="$ctrl.click();" ui-sref-active="md-accent active" ng-class="\'amf-menu-item-\' + $ctrl.level" class="amf-button-link" ui-sref="{{$ctrl.node.sref}}"><div flex="grow" layout="row"><span>{{$ctrl.node.title}}</span></div></md-button><md-button ng-if="(!$ctrl.node.childs || !$ctrl.node.childs.length) && !$ctrl.node.sref" ng-click="$ctrl.click();" ng-class="\'amf-menu-item-\' + $ctrl.level" class="amf-button-disabled" ng-disabled="true"><div flex="grow" layout="row"><span>{{$ctrl.node.title}}</span></div></md-button><md-divider></md-divider><div amf-slide="$ctrl.node.isOpen"><ul ng-if="$ctrl.node.childs.length" class="amf-menu-children"><li ng-repeat="child in $ctrl.node.childs"><amf-side-menu-item node="child" level="{{$ctrl.level + 1}}"></li></ul></div>');
 $templateCache.put('app/components/toolbarButtons.tmpl.html','<section layout="row" layout-align="end"><div ng-repeat="btn in $ctrl.buttons" style="position:relative"><ng-bind-html ng-if="btn.template" ng-bind-html="btn.template"></ng-bind-html><md-button ng-if="!btn.template && !btn.menu" ng-click="btn.onClick && btn.onClick();" class="md-icon-button toolbar-button" aria-label="{{btn.label}}"><md-icon ng-if="btn.icon" md-svg-icon="{{btn.icon}}"></md-icon></md-button><span ng-if="!btn.template && btn.badge" class="amf-notifications-label">{{btn.badge}}</span><md-menu ng-if="!btn.template && btn.menu"><md-button class="md-icon-button" ng-click="$mdMenu.open($event)" aria-label="{{btn.label}}"><md-icon ng-if="btn.icon" md-svg-icon="{{btn.icon}}"></md-icon></md-button><md-menu-content width="3"><md-menu-item ng-repeat="item in btn.menu"><md-button ng-click="$mdMenu.close(); item.onClick && item.onClick();" class="md-button" aria-label="{{item.label}}"><md-icon ng-if="item.icon" md-svg-icon="{{item.icon}}"></md-icon><span ng-if="item.label">{{item.label}}</span></md-button><span ng-if="item.badge" class="amf-notifications-label">{{item.badge}}</span></md-menu-item></md-menu-content></md-menu></div></section>');
 $templateCache.put('app/containers/App.tmpl.html','<div layout="row" layout-fill><md-sidenav md-is-locked-open="$mdMedia(\'gt-sm\')" md-component-id="left" class="md-whiteframe-z2 md-sidenav-left" md-colors="{\'background-color\': \'background\'}"><header class="md-whiteframe-2dp" md-colors="{color: \'primary\'}"><ng-transclude ng-transclude-slot="title" flex="100"></ng-transclude><md-divider></md-divider></header><amf-side-menu nodes="$ctrl.sideMenu"></md-sidenav><div layout="column" flex><md-toolbar layout="row" layout-align="start center" class="md-whiteframe-2dp"><md-button class="md-icon-button" hide-gt-sm ng-click="$ctrl.openMenu()" aria-label="menu"><md-icon md-svg-icon="menu"></md-icon></md-button><amf-breadcrumbs limit-to="2" limit-to-xs="1" label-property="data.title"></amf-breadcrumbs><span flex></span><amf-toolbar-buttons buttons="$ctrl.toolbar"></amf-toolbar-buttons></md-toolbar><!-- main content --><md-content class="md-padding page-content" md-colors="{\'background-color\': \'background-hue-1\'}" md-scroll-y layout="column" flex><ng-transclude ng-transclude-slot="content"></ng-transclude><div layout="row" layout-align="center end"><ng-transclude ng-transclude-slot="footer" flex="100"></ng-transclude></div></md-content></div></div>');
-$templateCache.put('app/services/loginDialog.tmpl.html','<md-dialog aria-label="Login" class="amf-login-dialog"><form name="loginForm" data-ng-submit="dialog.handleSubmit()"><md-toolbar><div class="md-toolbar-tools"><h2>Login</h2></div></md-toolbar><md-dialog-content class="md-dialog-content" role="document" tabindex="-1"><md-toolbar class="md-warn" ng-if="dialog.error">{{dialog.error}}</md-toolbar><md-input-container class="" md-no-float><label>Username:</label><input name="username" ng-model="dialog.username" required md-autofocus><div ng-messages="loginForm.username.$error"><div ng-message="required">This is required!</div></div></md-input-container><md-input-container class="md-block"><label>Password:</label><input ng-model="dialog.password" type="password" required></md-input-container></md-dialog-content><md-dialog-actions layout="row"><span flex></span><md-button type="submit" class="md-primary md-confirm-button" aria-label="login">Login</md-button></md-dialog-actions></form></md-dialog><!--\n<md-dialog aria-label="Login" class="amf-login-dialog">\n  <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">\n    <h2 class="md-title">Login</h2>\n    <div ng-if="::dialog.mdHtmlContent" class="md-dialog-content-body" \n        ng-bind-html="::dialog.mdHtmlContent"></div>\n    <div ng-if="::!dialog.mdHtmlContent" class="md-dialog-content-body">\n      <p>{{::dialog.mdTextContent}}</p>\n    </div>\n    <md-input-container md-no-float ng-if="::dialog.$type == \\prompt\\" class="md-prompt-input-container">\n      <input ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" \n             placeholder="{{::dialog.placeholder}}">\n    </md-input-container>\n  </md-dialog-content>\n  <md-dialog-actions>\n    <md-button ng-if="dialog.$type === \\confirm\\ || dialog.$type === \\prompt\\"\n               ng-click="dialog.abort()" class="md-primary md-cancel-button">\n      {{ dialog.cancel }}\n    </md-button>\n    <md-button ng-click="dialog.hide()" class="md-primary md-confirm-button" md-autofocus="dialog.$type===\\alert\\">\n      {{ dialog.ok }}\n    </md-button>\n  </md-dialog-actions>\n</md-dialog>\n-->');}]);
+$templateCache.put('app/services/loginDialog.tmpl.html','<md-dialog aria-label="Login" class="amf-login-dialog"><form name="loginForm" data-ng-submit="dialog.handleSubmit()" novalidate><div class="amf-login-dialog-header"><md-icon md-svg-icon="account-circle" class="md-accent"></md-icon><h2 md-colors="{color: \'primary\'}">Login</h2></div><md-dialog-content class="md-dialog-content" role="document" tabindex="-1" layout="column"><md-input-container><label>Username:</label><input name="username" ng-model="dialog.username" required md-autofocus></md-input-container><md-input-container md-is-error="(loginForm.password.$error && loginForm.password.$touched) || dialog.error"><label>Password:</label><input name="password" ng-model="dialog.password" type="password" required><div ng-messages="dialog.error"><div ng-message="unauthorized">{{dialog.error.unauthorized}}</div></div></md-input-container></md-dialog-content><md-dialog-actions layout="row"><span flex></span><md-button type="submit" class="md-primary md-confirm-button" aria-label="login">Login</md-button></md-dialog-actions></form></md-dialog>');}]);
 //# sourceMappingURL=../.maps/amFramework.js.map

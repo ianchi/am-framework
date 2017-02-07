@@ -182,18 +182,18 @@ function LoginDialogProvider() {
 				clickOutsideToClose: false,
 				escapeToClose: false,
 				fullscreen: true
-
 			}).finally(function() {
 				$amfHttpProgress.state(oldState);
 			});
 		}
 
 		/* ngInject */
-		function LoginDialogController($mdDialog, $cookies, $rootScope) {
+		function LoginDialogController($mdDialog, $cookies, $rootScope, $scope) {
 			var dialog = this;
+			$scope.theme = 'default';
 			dialog.username = '';
 			dialog.password = '';
-			dialog.error = false;
+			dialog.error = null;
 
 			dialog.handleSubmit = handleSubmit;
 			dialog.handleCancel = handleCancel;
@@ -206,6 +206,7 @@ function LoginDialogProvider() {
 							dialog.password = '';
 							dialog.username = '';
 							$mdDialog.hide(token);
+							dialog.error = null;
 
 							if (options.cookie) {
 								$cookies.putObject(options.cookie.name, token, { path: options.cookie.path });
@@ -214,7 +215,7 @@ function LoginDialogProvider() {
 						}, function(errMsg) {
 							if (options.cookie)
 								$cookies.remove(options.cookie.name, { path: options.cookie.path });
-							dialog.error=errMsg || 'Invalid username/password';
+							dialog.error = { unauthorized: errMsg || 'Invalid username/password' };
 						});
 				} else $mdDialog.hide();
 				return;

@@ -1,31 +1,25 @@
 <md-dialog aria-label="Login" class="amf-login-dialog">
 
-    <form name="loginForm" data-ng-submit="dialog.handleSubmit()">
+    <form name="loginForm" data-ng-submit="dialog.handleSubmit()" novalidate>
 
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2>Login</h2>
-            </div>
-        </md-toolbar>
-
-        <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">
-			<md-toolbar class="md-warn" ng-if="dialog.error">
-				{{dialog.error}}
-			</md-toolbar>
-			
-                <md-input-container class="" md-no-float>
+		<div class="amf-login-dialog-header">
+			<md-icon md-svg-icon="account-circle" class="md-accent "></md-icon>
+			<h2 md-colors="{color: 'primary'}">Login</h2>
+		</div>
+        <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1" layout="column">
+                <md-input-container >
                     <label>Username:</label>
                     <input name="username" ng-model="dialog.username" required md-autofocus>
-                    <div ng-messages="loginForm.username.$error">
-      					<div ng-message="required">This is required!</div>
-    				</div>
                 </md-input-container>
 
-                <md-input-container class="md-block">
+                <md-input-container md-is-error="(loginForm.password.$error && loginForm.password.$touched) || dialog.error">
                     <label>Password:</label>
-                    <input ng-model="dialog.password" type="password" required>
+                    <input name="password" ng-model="dialog.password" type="password" required>
+					<div ng-messages="dialog.error">
+						<div ng-message="unauthorized">{{dialog.error.unauthorized}}</div>
+					</div>
                 </md-input-container>
-        </md-dialog-content>
+		</md-dialog-content>
 
         <md-dialog-actions layout="row">
             <span flex></span>
@@ -37,28 +31,3 @@
     </form>
 
 </md-dialog>
-<!--
-<md-dialog aria-label="Login" class="amf-login-dialog">
-  <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">
-    <h2 class="md-title">Login</h2>
-    <div ng-if="::dialog.mdHtmlContent" class="md-dialog-content-body" 
-        ng-bind-html="::dialog.mdHtmlContent"></div>
-    <div ng-if="::!dialog.mdHtmlContent" class="md-dialog-content-body">
-      <p>{{::dialog.mdTextContent}}</p>
-    </div>
-    <md-input-container md-no-float ng-if="::dialog.$type == \prompt\" class="md-prompt-input-container">
-      <input ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" 
-             placeholder="{{::dialog.placeholder}}">
-    </md-input-container>
-  </md-dialog-content>
-  <md-dialog-actions>
-    <md-button ng-if="dialog.$type === \confirm\ || dialog.$type === \prompt\"
-               ng-click="dialog.abort()" class="md-primary md-cancel-button">
-      {{ dialog.cancel }}
-    </md-button>
-    <md-button ng-click="dialog.hide()" class="md-primary md-confirm-button" md-autofocus="dialog.$type===\alert\">
-      {{ dialog.ok }}
-    </md-button>
-  </md-dialog-actions>
-</md-dialog>
--->

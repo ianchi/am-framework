@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-	.module('amFramework', ['ngMaterial', 'ngAnimate', 'ui.router'])
+	.module('amFramework', ['ngMaterial', 'ngAnimate', 'ui.router', 'ngMessages'])
 	.config(function($mdThemingProvider) {
 		'ngInject';
 
@@ -13,16 +13,6 @@ angular
 				'default': '50',
 				'hue-1': '300'
 			});
-
-		$mdThemingProvider.theme('dark', 'default')
-			.primaryPalette('defaultPrimary')
-			.dark();
-
-		$mdThemingProvider.theme('grey', 'default')
-			.primaryPalette('grey');
-
-		$mdThemingProvider.theme('custom', 'default')
-			.primaryPalette('defaultPrimary', { 'hue-1': '50' });
 
 		$mdThemingProvider.definePalette('defaultPrimary', {
 			'50': '#FFFFFF',

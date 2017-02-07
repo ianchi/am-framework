@@ -194,8 +194,8 @@ function build() {
 		.pipe(jsFilter.restore)
 
 		.pipe(cssFilter)
-		// .pipe($.if('**/luci-ng.css', $.autoprefixer())) // don't prefix libs css
-		.pipe($.cssnano()) // but minify everything
+		.pipe($.if('!**/libs.css', $.autoprefixer())) // don't prefix libs css
+		// .pipe($.cssnano()) // but minify everything
 		.pipe(cssFilter.restore)
 
 		.pipe(htmlFilter)
